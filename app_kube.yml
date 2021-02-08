@@ -1,22 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: udacity
-  namespace: udacity-ns 
+  name: capstone
+  namespace: capstone-ns 
   labels:
-    app: udacity
+    app: capstone
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: udacity
+      app: capstone
   template:
     metadata:
       labels:
-        app: udacity
+        app: capstone
     spec:
       containers:
-      - name: udacityapp
+      - name: capstone
         image: $dockerpath
         ports:
-        - containerPort: 80
+        - containerPort: 5000
+        volumeMount:
+        - name: webapp-cm
+          mountPath: /app/templates
+      volumes:
+        - name: webapp-cm
+          configMap:
+            name: webapp-cm
