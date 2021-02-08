@@ -31,6 +31,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
+            apk --update add make
             python3 -m venv venv
             . venv/bin/activate
             make install
