@@ -154,6 +154,9 @@ workflows:
   default:
     jobs:
       - build-code
+          filters:
+            branches:
+              only: [main]
       #- deploy-infrastructure:
       #    requires: [build-code]
       #- configure-infrastructure:
