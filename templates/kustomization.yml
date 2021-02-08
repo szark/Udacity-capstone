@@ -1,0 +1,6 @@
+configMapGenerator:
+  - name: webapp-cm
+    files:
+    - myweb.html
+generatorOptions:
+  disableNameSuffixHash: true
