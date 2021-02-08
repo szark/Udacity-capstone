@@ -5,7 +5,7 @@
 
 # Step 1:
 # Create dockerpath
-dockerpath=szark/udacity-proj4
+dockerpath=szark/udacity-capstone
 
 # Step 2:  
 # Authenticate & tag
