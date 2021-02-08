@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udacity
+  namespace: udacity-ns 
+  labels:
+    app: udacity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udacity
+  template:
+    metadata:
+      labels:
+        app: udacity
+    spec:
+      containers:
+      - name: udacityapp
+        image: $dockerpath
+        ports:
+        - containerPort: 80
