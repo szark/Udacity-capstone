@@ -18,7 +18,7 @@ jobs:
   build-code:
     docker:
     # Use the same Docker base as the project
-      - image: python:3.7.3-stretch
+      - image: python-3.9-alpine3.13
     working_directory: ~/repo
     steps:
       - checkout
@@ -153,9 +153,9 @@ workflows:
   default:
     jobs:
       - build-code
-      - deploy-infrastructure:
-          requires: [build-code]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - deploy-scripts:
-          requires: [configure-infrastructure]
+      #- deploy-infrastructure:
+      #    requires: [build-code]
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
+      #- deploy-scripts:
+      #    requires: [configure-infrastructure]
