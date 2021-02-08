@@ -5,19 +5,19 @@
 # Step 1:
 # This is your Docker ID/path
 # dockerpath=<>
-dockerpath=szark/udacity-proj4
+dockerpath=szark/udacity-capstone
 
 # Step 2
 # Run the Docker Hub container with kubernetes
 #docker stack deploy --namespace udacity --compose-file app.yml udacity
 export dockerpath
-kubectl create namespace udacity-ns
+kubectl create namespace capstone
 envsubst < app_kube.yml | kubectl create -f -
 #kubectl create -f app_kube.yml
 # Step 3:
 # List kubernetes pods
-kubectl get pods -n udacity-ns
+kubectl get pods -n capstone-ns
 
 # Step 4:
 # Forward the container port to a host
-kubectl port-forward -n udacity-ns deployment/udacity 8080:80&
+kubectl port-forward -n capstone-ns deployment/capstone 8080:5000&

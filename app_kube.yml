@@ -20,7 +20,7 @@ spec:
         image: $dockerpath
         ports:
         - containerPort: 5000
-        volumeMount:
+        volumeMounts:
         - name: webapp-cm
           mountPath: /app/templates
       volumes:
