@@ -30,9 +30,14 @@
 - name: "install dependencies (docker, containerd)"
   become: yes
   apt:
-    name: ["docker-ce", "docker-ce-cli", "containerd.io"]
+    name: ["docker-ce", "docker-ce-cli", "containerd.io", "python3-pip"]
     state: latest
     update_cache: yes
+
+- name: Install pip3 Openshift module
+  pip:
+    name: openshift
+    executable: pip3
 
 - name: Add user to docker Group
   become: yes
