@@ -157,14 +157,15 @@ jobs:
       - run:
           name: Deploy app
           command: |
+            ansible --version
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
             -i ~/project/.circleci/ansible/inventory.txt ~/project/.circleci/ansible/deploy-scripts.yml
           no_output_timeout: 30m
-      - run:
-          name: Install dependencies for rollback
-          when: on_fail
-          command: |
-            apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
+     # - run:
+     #     name: Install dependencies for rollback
+     #     when: on_fail
+     #     command: |
+     #       apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
       # - destroy-environment
 
 workflows:
