@@ -26,7 +26,7 @@
   become_user: ubuntu
   become: yes
   shell: |
-    kubect apply -k /home/ubuntu/app/project/templates/ -n capstone-ns 
+    kubectl apply -k /home/ubuntu/app/project/templates/ -n capstone-ns 
 
 - name: Create deployment
   become_user: ubuntu
