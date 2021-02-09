@@ -20,4 +20,5 @@ kubectl get pods -n capstone-ns
 
 # Step 4:
 # Forward the container port to a host
+until kubectl get pods -n capstone-ns | grep Running; do sleep 5; done
 kubectl port-forward -n capstone-ns deployment/capstone 8080:5000&
