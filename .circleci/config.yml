@@ -147,6 +147,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible && apk add openssh && apk add tar
+            apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli && pip3 install openshift
       - run:
           name: archive app files
           command: |
