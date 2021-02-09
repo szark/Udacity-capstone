@@ -84,7 +84,8 @@ jobs:
             # Check if minikube instance already exists
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters "Name=tag:app,Values=minikube" > /tmp/realip
+            --filters "Name=tag:app,Values=minikube" \
+            --output text > /tmp/realip
 
             minikubeip=$(cat /tmp/realip)
             echo "Minikube IP is $minikubeip"
