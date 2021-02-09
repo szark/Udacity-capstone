@@ -78,16 +78,17 @@ jobs:
               --stack-name "minikube" 
             fi
 
-      - run: Store Minikube IP
-        command: |
-          # Check if minikube instance already exists
-          aws ec2 describe-instances \
-          --query 'Reservations[*].Instances[*].PublicIpAddress' \
-          --filters "Name=tag:app,Values=minikube" > /tmp/realip
+      - run: 
+          name: Store Minikube IP
+          command: |
+            # Check if minikube instance already exists
+            aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --filters "Name=tag:app,Values=minikube" > /tmp/realip
 
-          minikubeip=$(cat /tmp/realip)
-          echo "Minikube IP is $minikubeip"
-          curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID}" --request PUT --data "$minikubeip" https://api.memstash.io/values/minikubeip
+            minikubeip=$(cat /tmp/realip)
+            echo "Minikube IP is $minikubeip"
+            curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID}" --request PUT --data "$minikubeip" https://api.memstash.io/values/minikubeip
       - run:
           name: Install dependencies
           command: |
