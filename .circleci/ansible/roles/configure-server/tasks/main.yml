@@ -61,7 +61,13 @@
 - name: Download kubectl
   become: yes
   shell: |
-    cp /tmp/kubectl /usr/bin/kubectl
+    FILE=/usr/bin/kubectl
+    if test -f "${FILE}"
+    then
+      echo "exists"
+    else
+      cp /tmp/kubectl /usr/bin/kubectl
+    fi
 
 - name: Reset connection
   meta: reset_connection
