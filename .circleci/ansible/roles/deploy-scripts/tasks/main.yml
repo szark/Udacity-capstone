@@ -73,7 +73,7 @@
     then
       pkill kubectl
       sleep 5
-      kubectl port-forward -n capstone-ns deployment/capstone --address 0.0.0.0 8080:5000&
+      nohup kubectl port-forward -n capstone-ns deployment/capstone --address 0.0.0.0 8080:5000 </dev/null >/dev/null 2>&1 &
     else
-      kubectl port-forward -n capstone-ns deployment/capstone --address 0.0.0.0 8080:5000&
+      nohup kubectl port-forward -n capstone-ns deployment/capstone --address 0.0.0.0 8080:5000& </dev/null >/dev/null 2>&1 &
     fi
