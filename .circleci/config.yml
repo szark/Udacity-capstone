@@ -158,8 +158,7 @@ jobs:
           name: Deploy app
           command: |
             ansible --version
-            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
-            -i ~/project/.circleci/ansible/inventory.txt ~/project/.circleci/ansible/deploy-scripts.yml
+            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ~/project/.circleci/ansible/inventory.txt ~/project/.circleci/ansible/deploy-scripts.yml
           no_output_timeout: 30m
      # - run:
      #     name: Install dependencies for rollback
