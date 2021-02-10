@@ -151,7 +151,7 @@ jobs:
       - run:
           name: archive app files
           command: |
-            sed "s/f2f28f/${CIRCLE_WORKFLOW_ID:0:6}/g" templates/myweb.html
+            sed -i "s/f2f28f/${CIRCLE_WORKFLOW_ID:0:6}/g" templates/myweb.html
             cd ..
             tar -cvf project.tar project
             ls -al ~/
