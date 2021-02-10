@@ -33,4 +33,33 @@
   become: yes
   community.kubernetes.k8s:
     state: present
-    src: /root/project/app_kube.yml
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: capstone
+        namespace: capstone-ns 
+        labels:
+          app: capstone
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: capstone
+        template:
+          metadata:
+            labels:
+              app: capstone
+          spec:
+            containers:
+            - name: capstone
+              image: szark/udacity-capstone
+              ports:
+              - containerPort: 5000
+              volumeMounts:
+              - name: webapp-cm
+                mountPath: /app/templates
+            volumes:
+              - name: webapp-cm
+                configMap:
+                  name: webapp-c
