@@ -33,4 +33,4 @@
   become: yes
   community.kubernetes.k8s:
     state: present
-    src: ~/project/app_kube.yml
+    src: /home/ubuntu/app/project/app_kube.yml
