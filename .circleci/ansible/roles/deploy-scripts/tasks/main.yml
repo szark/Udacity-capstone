@@ -72,7 +72,8 @@
     if [ $? -eq 0 ]
     then
       pkill kubectl
-    else
       sleep 5
+      kubectl port-forward -n capstone-ns deployment/capstone --address 0.0.0.0 8080:5000&
+    else
       kubectl port-forward -n capstone-ns deployment/capstone --address 0.0.0.0 8080:5000&
     fi
