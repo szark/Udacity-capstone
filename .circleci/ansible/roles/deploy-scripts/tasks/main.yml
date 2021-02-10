@@ -62,4 +62,4 @@
             volumes:
               - name: webapp-cm
                 configMap:
-                  name: webapp-c
+                  name: webapp-cm
