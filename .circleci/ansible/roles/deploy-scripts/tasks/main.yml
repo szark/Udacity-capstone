@@ -68,4 +68,4 @@
   become_user: ubuntu
   become: yes
   shell: |
-    kubectl port-forward -n capstone-ns deployment/capstone 8080:5000&
+    kubectl port-forward -n capstone-ns deployment/capstone --address 0.0.0.0 8080:5000&
