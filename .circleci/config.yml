@@ -154,6 +154,8 @@ jobs:
             cd ..
             tar -cvf project.tar project
             ls -al ~/
+            pwd
+            ls -al /root/project
       - run:
           name: Deploy app
           command: |
@@ -165,7 +167,7 @@ jobs:
      #     when: on_fail
      #     command: |
      #       apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
-      # - destroy-environment
+      # - destroy-tez sie
 
 workflows:
   default:
