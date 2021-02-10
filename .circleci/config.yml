@@ -146,11 +146,12 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible && apk add openssh && apk add tar
+            apk add --update ansible && apk add openssh && apk add tar && apk add sed
             apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli && pip3 install openshift && pip install openshift
       - run:
           name: archive app files
           command: |
+            sed "s/f2f28f/${CIRCLE_WORKFLOW_ID:0:6}/g" templates/myweb.html
             cd ..
             tar -cvf project.tar project
             ls -al ~/

@@ -22,7 +22,7 @@
     kind: namespace
     state: present
 
-- name: Download kubectl
+- name: Update config map
   become_user: ubuntu
   become: yes
   shell: |
@@ -63,3 +63,9 @@
               - name: webapp-cm
                 configMap:
                   name: webapp-cm
+
+- name: Run port forward 
+  become_user: ubuntu
+  become: yes
+  shell: |
+    kubectl port-forward -n capstone-ns deployment/capstone 8080:5000&
