@@ -10,7 +10,7 @@
   become_user: ubuntu
   become: yes 
   unarchive: 
-    src: ~/project.tar
+    src: ~/project/templates.tar
     dest: /home/ubuntu/app
 
 - name: Create k8s namespace
@@ -26,7 +26,7 @@
   become_user: ubuntu
   become: yes
   shell: |
-    kubectl apply -k /home/ubuntu/app/project/templates/ -n capstone-ns 
+    kubectl apply -k /home/ubuntu/app/templates/ -n capstone-ns 
     kubectl delete pod -l app=capstone
 
 - name: Create deployment
