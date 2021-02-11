@@ -2,20 +2,16 @@
 
 ## Project Overview
 
-TBD 
+The application serves a Python flask app, which displays simple square, which color changes on each re-deployment. The color depends on CIRCLE_WORKFLOW_ID (${CIRCLE_WORKFLOW_ID:0:6}). The application is deployed to minikube cluster installed on EC2 instance and exposed to port 8080 of node. Deployment is fully automated via Circle CI.
 
-### Project Tasks
+### How deployment works
 
-Your project goal is to operationalize this working, machine learning microservice using [kubernetes](https://kubernetes.io/), which is an open-source system for automating the management of containerized applications. In this project you will:
-* Test your project code using linting
-* Complete a Dockerfile to containerize this application
-* Deploy your containerized application using Docker and make a prediction
-* Improve the log statements in the source code for this application
-* Configure Kubernetes and create a Kubernetes cluster
-* Deploy a container using Kubernetes and make a prediction
-* Upload a complete Github repo with CircleCI to indicate that your code has been tested
-
-You can find a detailed [project rubric, here](https://review.udacity.com/#!/rubrics/2576/view).
+1. Build-code: In Python's virtual env are installed all dependencies with `make install`. Then Python and Docker file are verified with pylint and hadolint (`make lint`)
+2. Build-docker: Docker image is being created out of the Dockerfile and uploaded to my repository (https://hub.docker.com/repository/docker/szark/udacity-capstone). The password to the repo is stored as variable in CircleCI.
+3. Deploy-infrastructure: New EC2 instance is deployed with Cloud Formation script. The server has tag: **app: minikube**. On consecutive run, EC2 instance stays the same, as new app version is only deployed via Kubernetes.
+4. Configure-server: An ansible job, which prepares EC2 instance by updating packages, installing docker, containerd, minikube, kubectl, Python's Openshift module and starts minikube.
+5. Deploy-scripts: That job does ansible deployment. Before, it replaces color code of displayed square to ${CIRCLE_WORKFLOW_ID:0:6}, then ansible creates app directory, copy html with modified kode and kustomitation.yml, ensures namespace is created, deploys html as config map, creates kubernetes deployment, and port forward to port 8080.
+6. Whenever new pipeline runs, color of square changes, change is applied to config map and pod is restarted. Because deployment has `imagePullPolicy: Always`, also if changes in image were applied, new version will be deployed.
 
 **The final implementation of the project will showcase your abilities to operationalize production microservices.**
 
