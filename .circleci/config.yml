@@ -49,6 +49,34 @@ jobs:
             . venv/bin/activate
             make lint 
 
+  build-docker:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update docker
+      - run:
+          name: Build docker
+          command: |
+            docker build --tag=web_app .
+      - run:
+          name: List docker images
+          command: |
+            docker image ls
+      - run:
+          name: Upload docker
+          command: |
+            dockerpath=szark/udacity-capstone
+            docker login -u szark -p ${DOCKER_PW}
+            docker image tag web_app:latest ${dockerpath}
+            docker push ${dockerpath}
+      #- destroy-environment    
+
   deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
