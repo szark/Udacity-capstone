@@ -60,6 +60,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update docker
+            service docker start
       - run:
           name: Build docker
           command: |
