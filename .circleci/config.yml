@@ -62,14 +62,17 @@ jobs:
           - v1-dependencies-{{ checksum "requirements.txt" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+      # Make build of the image
       - run:
           name: Build docker
           command: |
             docker build --tag=web_app .
+      # List images
       - run:
           name: List docker images
           command: |
             docker image ls
+      # Upload image to docker hub
       - run:
           name: Upload docker
           command: |
@@ -77,13 +80,14 @@ jobs:
             docker login -u szark -p ${DOCKER_PW}
             docker image tag web_app:latest ${dockerpath}
             docker push ${dockerpath}
-      #- destroy-environment    
+      - destroy-environment    
 
   deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
     steps:
       - checkout
+      # Ensure that EC2 instance tagged app=minikube exists
       - run:
           name: Ensure Minikube server exists
           command: |
@@ -91,11 +95,10 @@ jobs:
               --template-file .circleci/files/minikube.yml \
               --tags app=minikube \
               --stack-name "minikube" \
-
+      # If EC2 does not exists, deploy it
       - run:
-          name: Add back-end ip to ansible inventory and store new IP to memstash
+          name: Check EC2 and re
           command: |
-            # Check if minikube instance already exists
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:app,Values=minikube" > /tmp/ip
@@ -107,7 +110,7 @@ jobs:
               --tags app=minikube \
               --stack-name "minikube" 
             fi
-
+      # Save IP of EC2 instance
       - run: 
           name: Store Minikube IP
           command: |
@@ -125,7 +128,7 @@ jobs:
           name: Install dependencies
           command: |
             yum install -y tar gzip
-
+      # Persist inventory file
       - persist_to_workspace:
           root: ~/
           paths:
@@ -148,6 +151,7 @@ jobs:
           command: |
             apk add --update ansible && apk add openssh
             cat ~/project/.circleci/ansible/inventory.txt
+      # Deploy necessary packages with ansible, install docker, minikube, kubectl, start minikube
       - run:
           name: Configure server
           command: |
@@ -159,7 +163,7 @@ jobs:
           when: on_fail
           command: |
             apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
-      #- destroy-environment    
+      - destroy-environment    
 
   deploy-scripts:
     docker:
@@ -178,27 +182,23 @@ jobs:
           command: |
             apk add --update ansible && apk add openssh && apk add tar && apk add sed
             apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli && pip3 install openshift && pip install openshift
+      # Change "color" of square 
       - run:
           name: archive app files
           command: |
             sed -i "s/f2f28f/${CIRCLE_WORKFLOW_ID:0:6}/g" templates/myweb.html
-            cd ..
-            tar -cvf project.tar project
+            tar -cvf templates.tar templates
             ls -al ~/
             pwd
             ls -al /root/project
+      # Deploy app in minikube
       - run:
           name: Deploy app
           command: |
             ansible --version
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ~/project/.circleci/ansible/inventory.txt ~/project/.circleci/ansible/deploy-scripts.yml
           no_output_timeout: 30m
-     # - run:
-     #     name: Install dependencies for rollback
-     #     when: on_fail
-     #     command: |
-     #       apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
-      # - destroy-tez sie
+      - destroy-environment  
 
 workflows:
   default:
