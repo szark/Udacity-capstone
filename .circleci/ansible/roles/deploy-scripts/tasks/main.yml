@@ -27,6 +27,7 @@
   become: yes
   shell: |
     kubectl apply -k /home/ubuntu/app/project/templates/ -n capstone-ns 
+    kubectl delete pod -l app=capstone
 
 - name: Create deployment
   become_user: ubuntu
@@ -59,6 +60,7 @@
               volumeMounts:
               - name: webapp-cm
                 mountPath: /app/templates
+              imagePullPolicy: Always
             volumes:
               - name: webapp-cm
                 configMap:
