@@ -15,28 +15,28 @@ The application serves a Python flask app, which displays simple square, which c
 
 ### Included files
 ```
-.circleci
-|   config.yml
-└───ansible
-|   |   configure-server.yml
-|   |   deploy-scripts.yml
-|   |   inventory.txt
+.circleci - Circle CI directory
+|   config.yml - Circle CI config file
+└───ansible - ansible directory
+|   |   configure-server.yml - ansible playbook to configure EC2 server
+|   |   deploy-scripts.yml - ansible playbook to deploy application to Kubernetes 
+|   |   inventory.txt - inventory file containing IP of EC2 instance
 |   └───roles
 |      └───configure-server
 |      |   └───tasks
-|      |           main.yml
+|      |           main.yml - ansible role file deployed with configure-server.yml playbook
 |      └───deploy-scripts
 |          └───tasks
-|                  main.yml
+|                  main.yml - ansible role file deployed with deploy-script.yml playbook
 └───files
-|       minikube.yml
+|       minikube.yml - Cloud Formation to deploy EC2 instance
 templates
-    kustomization.yml
-    myweb.html
-Dockerfile
-Makefile
+    kustomization.yml - kustomization file for config map deployment
+    myweb.html - html file added to config map and being "web app"
+Dockerfile - docker file to build application image
+Makefile - make file 
 README.md
-requirements.txt
-web_app.py
+requirements.txt - required python modules
+web_app.py - main "web app" python file
 ```
 
