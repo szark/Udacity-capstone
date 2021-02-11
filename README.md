@@ -13,24 +13,30 @@ The application serves a Python flask app, which displays simple square, which c
 5. Deploy-scripts: That job does ansible deployment. Before, it replaces color code of displayed square to ${CIRCLE_WORKFLOW_ID:0:6}, then ansible creates app directory, copy html with modified kode and kustomitation.yml, ensures namespace is created, deploys html as config map, creates kubernetes deployment, and port forward to port 8080.
 6. Whenever new pipeline runs, color of square changes, change is applied to config map and pod is restarted. Because deployment has `imagePullPolicy: Always`, also if changes in image were applied, new version will be deployed.
 
-**The final implementation of the project will showcase your abilities to operationalize production microservices.**
+### Included files
+```
+.circleci - Circle CI directory
+|   config.yml - Circle CI config file
+└───ansible - ansible directory
+|   |   configure-server.yml - ansible playbook to configure EC2 server
+|   |   deploy-scripts.yml - ansible playbook to deploy application to Kubernetes 
+|   |   inventory.txt - inventory file containing IP of EC2 instance
+|   └───roles
+|      └───configure-server
+|      |   └───tasks
+|      |           main.yml - ansible role file deployed with configure-server.yml playbook
+|      └───deploy-scripts
+|          └───tasks
+|                  main.yml - ansible role file deployed with deploy-script.yml playbook
+└───files
+|       minikube.yml - Cloud Formation to deploy EC2 instance
+templates
+    kustomization.yml - kustomization file for config map deployment
+    myweb.html - html file added to config map and being "web app"
+Dockerfile - docker file to build application image
+Makefile - make file 
+README.md
+requirements.txt - required python modules
+web_app.py - main "web app" python file
+```
 
----
-
-## Setup the Environment
-
-* Create a virtualenv and activate it
-* Run `make install` to install the necessary dependencies
-
-### Running `app.py`
-
-1. Standalone:  `python app.py`
-2. Run in Docker:  `./run_docker.sh`
-3. Run in Kubernetes:  `./run_kubernetes.sh`
-
-### Kubernetes Steps
-
-* Setup and Configure Docker locally
-* Setup and Configure Kubernetes locally
-* Create Flask app in Container
-* Run via kubectl
