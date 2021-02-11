@@ -205,8 +205,10 @@ workflows:
           filters:
             branches:
               only: [main]
-      - deploy-infrastructure:
+      - build-docker:
           requires: [build-code]
+      - deploy-infrastructure:
+          requires: [build-docker]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - deploy-scripts:
