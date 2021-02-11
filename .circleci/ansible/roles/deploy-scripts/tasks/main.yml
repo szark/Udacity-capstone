@@ -73,7 +73,9 @@
     then
       pkill kubectl
       sleep 5
+      until kubectl get pods -n capstone-ns | grep Running; do sleep 5; done
       nohup kubectl port-forward -n capstone-ns deployment/capstone --address 0.0.0.0 8080:5000 </dev/null >/dev/null 2>&1 &
     else
+      until kubectl get pods -n capstone-ns | grep Running; do sleep 5; done
       nohup kubectl port-forward -n capstone-ns deployment/capstone --address 0.0.0.0 8080:5000& </dev/null >/dev/null 2>&1 &
     fi
