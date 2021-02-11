@@ -2,7 +2,7 @@ FROM python:3.9-alpine3.13
 
 ## Step 1:
 # Create a working directory
-WORKDIR RUN /app 
+WORKDIR /app 
 
 ## Step 2:
 # Copy source code to working directory
