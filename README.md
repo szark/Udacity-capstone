@@ -14,8 +14,29 @@ The application serves a Python flask app, which displays simple square, which c
 6. Whenever new pipeline runs, color of square changes, change is applied to config map and pod is restarted. Because deployment has `imagePullPolicy: Always`, also if changes in image were applied, new version will be deployed.
 
 ### Included files
-.
-+--.circleci
-+--templates
-
+```
+.circleci
+|   config.yml
+└───ansible
+|   |   configure-server.yml
+|   |   deploy-scripts.yml
+|   |   inventory.txt
+|   └───roles
+|      └───configure-server
+|      |   └───tasks
+|      |           main.yml
+|      └───deploy-scripts
+|          └───tasks
+|                  main.yml
+└───files
+|       minikube.yml
+templates
+    kustomization.yml
+    myweb.html
+Dockerfile
+Makefile
+README.md
+requirements.txt
+web_app.py
+```
 
